@@ -472,8 +472,14 @@ public final class FileUtils {
     LOG.info("========== userName: "+ userName);
     LOG.info("========== owner: "+ fileStatus.getOwner());
     LOG.info("========== fileStatus: "+ fileStatus);
-    if (!fileStatus.getOwner().equals(userName)) {
-      return false;
+    if (fileStatus.getPath().toString().startsWith("s3://") || fileStatus.getPath().toString().startsWith("s3n://") || fileStatus.getPath().toString().startsWith("s3n://")) {
+      if (!fileStatus.getPermission().equals("rwxrwxrwx")) {
+        return false;
+      }
+    } else {
+      if (!fileStatus.getOwner().equals(userName)) {
+        return false;
+      } 
     }
 
     if (!fileStatus.isDir()) {
