@@ -469,6 +469,9 @@ public final class FileUtils {
 
   public static boolean isOwnerOfFileHierarchy(FileSystem fs, FileStatus fileStatus, String userName)
       throws IOException {
+    LOG.info("========== userName: "+ userName);
+    LOG.info("========== owner: "+ fileStatus.getOwner());
+    LOG.info("========== fileStatus: "+ fileStatus);
     if (!fileStatus.getOwner().equals(userName)) {
       return false;
     }
