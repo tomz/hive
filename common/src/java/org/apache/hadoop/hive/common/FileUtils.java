@@ -469,12 +469,10 @@ public final class FileUtils {
 
   public static boolean isOwnerOfFileHierarchy(FileSystem fs, FileStatus fileStatus, String userName)
       throws IOException {
-    LOG.info("========== userName: "+ userName);
-    LOG.info("========== owner: "+ fileStatus.getOwner());
-    LOG.info("========== fileStatus: "+ fileStatus);
-    if (fileStatus.getPath().toString().startsWith("s3://") || fileStatus.getPath().toString().startsWith("s3n://") || fileStatus.getPath().toString().startsWith("s3n://")) {
-      if (!fileStatus.getPermission().equals("rwxrwxrwx")) {
-        return false;
+    // for s3 location, owner is "", so check read/write permission instead
+    if (fileStatus.getOwner() == "" && fileStatus.getPath().toString().startsWith("s3")) {
+      if (fileStatus.getPermission().equals("rwxrwxrwx")) {
+        return true;
       }
     } else {
       if (!fileStatus.getOwner().equals(userName)) {
