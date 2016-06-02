@@ -470,15 +470,15 @@ public final class FileUtils {
   public static boolean isOwnerOfFileHierarchy(FileSystem fs, FileStatus fileStatus, String userName)
       throws IOException {
     // for s3 location, owner is "", so check read/write permission instead
-    if (fileStatus.getOwner() == "" && fileStatus.getPath().toString().startsWith("s3")) {
-      if (fileStatus.getPermission().equals("rwxrwxrwx")) {
-        return true;
-      }
-    } else {
+    //if (fileStatus.getOwner() == "" && fileStatus.getPath().toString().startsWith("s3")) {
+    //  if (fileStatus.getPermission().equals("rwxrwxrwx")) {
+    //    return true;
+    //  }
+    //} else {
       if (!fileStatus.getOwner().equals(userName)) {
         return false;
       } 
-    }
+    //}
 
     if (!fileStatus.isDir()) {
       // no sub dirs to be checked

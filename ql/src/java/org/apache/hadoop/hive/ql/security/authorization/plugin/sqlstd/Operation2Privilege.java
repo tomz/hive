@@ -126,6 +126,10 @@ public class Operation2Privilege {
           SQLPrivTypeGrant.INSERT_NOGRANT,
           SQLPrivTypeGrant.DELETE_NOGRANT,
           SQLPrivTypeGrant.SELECT_NOGRANT);
+  private static SQLPrivTypeGrant[] INS_SEL_DEL_NOGRANT_AR =
+      arr(SQLPrivTypeGrant.INSERT_NOGRANT,
+          SQLPrivTypeGrant.DELETE_NOGRANT,
+          SQLPrivTypeGrant.SELECT_NOGRANT);
 
 
 
@@ -137,7 +141,9 @@ public class Operation2Privilege {
         SEL_NOGRANT_AR)); //??
 
     op2Priv.put(HiveOperationType.CREATEDATABASE, PrivRequirement.newPrivRequirementList(
-        new PrivRequirement(OWNER_INS_SEL_DEL_NOGRANT_AR, HivePrivilegeObjectType.DFS_URI),
+        //new PrivRequirement(OWNER_INS_SEL_DEL_NOGRANT_AR, HivePrivilegeObjectType.DFS_URI),
+        // ideally we only want this for s3, hdfs still requires OWNER_
+        new PrivRequirement(INS_SEL_DEL_NOGRANT_AR, HivePrivilegeObjectType.DFS_URI),
         new PrivRequirement(OWNER_INS_SEL_DEL_NOGRANT_AR, HivePrivilegeObjectType.LOCAL_URI)));
 
     op2Priv.put(HiveOperationType.DROPDATABASE, PrivRequirement.newIOPrivRequirement
